@@ -1,20 +1,33 @@
 package br.com.carlettisolucoes.phonepower.charger;
 
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.carlettisolucoes.spring.generic.controller.CrudController;
-
 @RestController
 @RequestMapping("/chargers")
-@EnableAutoConfiguration
-public class ChargerController extends CrudController<Charger, Long> {
+@CrossOrigin(origins="*")
+public class ChargerController {
 
 	@Autowired
-	public ChargerController(ChargerService service) {
-		super(service);
+	private ChargerRepository repo;
+	
+	@GetMapping
+	public Iterable<Charger> findAll() {
+		return this.repo.findAll();
+	}
+	
+	@PostMapping
+	public ResponseEntity<Void> create(@RequestBody Charger charger) {
+		this.repo.save(charger);
+		return ResponseEntity.created(URI.create("/chargers/"+charger.getId())).build();
 	}
 
 }

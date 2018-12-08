@@ -1,15 +1,26 @@
 package br.com.carlettisolucoes.phonepower.charger;
 
-import br.com.carlettisolucoes.phonepower.location.Location;
-import br.com.carlettisolucoes.spring.generic.model.CrudModel;
+import java.io.Serializable;
 
-public class Charger implements CrudModel<Long> {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+
+@Entity
+public class Charger implements Serializable {
 
 	private static final long serialVersionUID = -221435528199312966L;
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
+	@SequenceGenerator(name="seq", initialValue=1, allocationSize=100, sequenceName="charger_seq")
 	private Long id;
 	
-	private Location location;
+	private Double lat;
+	
+	private Double lng;
 	
 	private String mainPhotoRef; //TODO make a service to provide files, photos and more.
 	
@@ -25,12 +36,20 @@ public class Charger implements CrudModel<Long> {
 		this.id = id;
 	}
 
-	public Location getLocation() {
-		return location;
+	public Double getLat() {
+		return lat;
 	}
 
-	public void setLocation(Location location) {
-		this.location = location;
+	public void setLat(Double lat) {
+		this.lat = lat;
+	}
+
+	public Double getLng() {
+		return lng;
+	}
+
+	public void setLng(Double lng) {
+		this.lng = lng;
 	}
 
 	public String getMainPhotoRef() {
